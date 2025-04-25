@@ -88,6 +88,7 @@ class AIVoiceAgent:
             while True:
                 user_input = self.listen_to_user()
                 
+                
                 if user_input is None:
                     print("No input detected. Going back to sleep...")
                     break  # go back to sleep mode
