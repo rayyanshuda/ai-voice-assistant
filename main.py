@@ -4,14 +4,17 @@ import pyttsx3
 import speech_recognition as sr  
 import subprocess
 import sys
+import os
 import json
+from datetime import datetime
+import string
 
 class AIVoiceAgent:
     def __init__(self):
         self.engine = pyttsx3.init()
         self.recognizer = sr.Recognizer()
         self.microphone = sr.Microphone()
-        
+
         self.engine.setProperty('rate', 150)
         self.engine.setProperty('volume', 0.9)
         voices = self.engine.getProperty('voices')
@@ -22,7 +25,6 @@ class AIVoiceAgent:
             {"role": "system", "content": "Keep your tone friendly, clear, and casual."},
         ]
         
-    
     def speak_mac(self, text):
         self.engine.say(text)
         self.engine.runAndWait()
@@ -30,9 +32,8 @@ class AIVoiceAgent:
     def listen_to_user(self):
         with self.microphone as source:
             print("Listening...")
-            self.recognizer.adjust_for_ambient_noise(source, duration=1.5)
+            self.recognizer.adjust_for_ambient_noise(source, duration=0.5)
             audio = self.recognizer.listen(source, timeout=10, phrase_time_limit=10)
-            
             try:
                 print("Recognizing...")
                 text = self.recognizer.recognize_google(audio)
@@ -54,8 +55,6 @@ class AIVoiceAgent:
         )
 
         ai_text = ollama_response["message"]["content"].strip()
-
-        # Remove content between <think> and </think> tags
         ai_text = re.sub(r'<think>.*?</think>', '', ai_text, flags=re.DOTALL).strip()
 
         print("Charlie:", ai_text)
@@ -75,20 +74,74 @@ class AIVoiceAgent:
                         print(f"User Input: {phrase}")
                         print("Charlie: I'm listening.")
                         self.speak_mac("I'm listening.")
-                        return  # exit sleep mode
+                        return
                 except (sr.WaitTimeoutError, sr.UnknownValueError, sr.RequestError):
-                    continue  # keep listening
+                    continue
+
+    def save_transcript(self):
+        os.makedirs("transcripts/JSON", exist_ok=True)
+        os.makedirs("transcripts/TXT", exist_ok=True)
+
+        title_prompt = {
+            "role": "user",
+            "content": (
+                "Based on our entire conversation so far, generate a short and intuitive title "
+                "(3 to 5 words max) that summarizes what we talked about. Put the title in double quotes."
+            )
+        }
+
+        try:
+            response = ollama.chat(
+                model="deepseek-r1:7b",
+                messages=self.full_transcript + [title_prompt]
+            )
+            ai_text = response["message"]["content"].strip()
+
+            # Remove any <think> blocks
+            ai_text = re.sub(r'<think>.*?</think>', '', ai_text, flags=re.DOTALL).strip()
+
+            # Extract title in double quotes if present
+            match = re.search(r'"([^"]{3,80})"', ai_text)
+            if match:
+                clean_title = match.group(1)
+            else:
+                clean_title = ai_text.split("\n")[0]
+
+            clean_title = re.sub(r"[^\w\s-]", "", clean_title)  # remove punctuation
+            clean_title = "_".join(clean_title.split()[:5])  # limit to 5 words
+
+            if not clean_title:
+                clean_title = "untitled_chat"
+
+        except Exception as e:
+            print(f"Failed to generate title, using default. Reason: {e}")
+            clean_title = "untitled_chat"
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        base_filename = f"{timestamp}_{clean_title}"
+
+        json_path = f"transcripts/JSON/{base_filename}.json"
+        txt_path = f"transcripts/TXT/{base_filename}.txt"
+
+        with open(json_path, "w") as f_json:
+            json.dump(self.full_transcript, f_json, indent=2)
+
+        with open(txt_path, "w") as f_txt:
+            for entry in self.full_transcript:
+                f_txt.write(f"{entry['role'].capitalize()}: {entry['content']}\n\n")
+
+        print(f"Transcript saved as:\n→ {json_path}\n→ {txt_path}")
 
     def start_chat(self):
         print("Hello! I'm Charlie. How can I assist you today?")
         while True:
-            self.wait_for_wake_word()  # Wait until user says "Hey Charlie"
+            self.wait_for_wake_word()
             while True:
                 user_input = self.listen_to_user()
                 
                 if user_input is None:
                     print("No input detected. Going back to sleep...")
-                    break  # go back to sleep mode
+                    break
 
                 if "open google" in user_input.lower():
                     self.engine.say("Opening Google.")
@@ -101,30 +154,18 @@ class AIVoiceAgent:
                     subprocess.run(["open", "https://www.youtube.com"])
                     self.engine.runAndWait()
                     continue
-                
+
                 if any(kw in user_input.lower() for kw in ["bye", "exit", "quit"]):
                     print("Charlie: Goodbye!")
                     self.engine.say("Goodbye!")
                     self.engine.runAndWait()
-
-                    # Save transcript to file before exiting
-                    self.save_transcript_to_file()
+                    self.save_transcript()
                     sys.exit(0)
-                
+
                 self.generate_ai_response(user_input)
 
-    def save_transcript_to_file(self):
-        # Save the transcript to a text file
-        with open("hudai_transcript.txt", "w") as file:
-            for msg in self.full_transcript:
-                file.write(f"{msg['role'].capitalize()}: {msg['content']}\n")
-        print("Transcript saved to 'hudai_transcript.txt'.")
+if __name__ == "__main__":
+    ai_voice_agent = AIVoiceAgent()
+    ai_voice_agent.start_chat()
 
-        # Optionally, you could save it as a JSON file as well
-        with open("hudai_transcript.json", "w") as json_file:
-            json.dump(self.full_transcript, json_file, indent=4)
-        print("Transcript saved to 'hudai_transcript.json'.")
-
-# Initialize and start the AI voice agent
-ai_voice_agent = AIVoiceAgent()
-ai_voice_agent.start_chat()
+#add a message after bye that you're making a transcript and also change ambient background detection

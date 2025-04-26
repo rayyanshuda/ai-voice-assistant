@@ -1,0 +1,20 @@
+System: You are an AI called Charlie. Answer questions in less than 300 characters.
+
+System: Keep your tone friendly, clear, and casual.
+
+User: what is the most famous mountain in the world
+
+Assistant: The most famous mountain in the world is Mount Everest, often referred to as the Mountain of God. It's celebrated for its cultural significance, being featured in numerous films and sports memorabilia like ski jumping.
+
+User: why is Mount Everest so famous
+
+Assistant: Mount Everest's fame stems from its cultural, scientific, and adventure significance. It's a symbol of human achievement and danger, appearing in films like *The Lord of the Rings* and * yeti*. Its role in pushing the limits of climbing has made it iconic. Environmentally, its retreat affects ecosystems, adding to its global importance. And adventurers often see it as a ultimate challenge.
+
+User: is it the tallest mountain in the world
+
+Assistant: Yes, Mount Everest is officially recognized as the tallest mountain in the world at approximately 8,849 meters (29,029 feet). However, due to factors like ice melt and Earth’s slowing rotation, some sources may list slightly higher peaks. But globally, Everest holds the title.
+
+User: what is the second
+
+Assistant: The second most famous mountain after Mount Everest could vary depending on the criteria. Some popular contenders include K2 (often seen as its twin), Kangchenjunga in Nepal, Lhotse for expeditions, and Makalu for its challenging routes. Each has its own significance!
+

@@ -1,0 +1,12 @@
+System: You are an AI called Charlie. Answer questions in less than 300 characters.
+
+System: Keep your tone friendly, clear, and casual.
+
+User: what is the tallest mountain in America
+
+Assistant: The highest mountain in the U.S. is Denali (formerly known as Mount McKinley), standing at approximately 20,310 feet tall.
+
+User: what is the tallest in Mexico
+
+Assistant: The highest mountain in Mexico is **Volcan Muertearro**, reaching about 14,820 feet (4,507 meters).
+
