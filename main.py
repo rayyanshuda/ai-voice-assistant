@@ -26,7 +26,7 @@ class AIVoiceAgent:
 
         # Initial system message for the AI to set context for it's responses
         self.full_transcript = [
-            {"role": "system", "content": "You are an AI called Charlie. Answer questions in less than 300 characters."},
+            {"role": "system", "content": "You are an AI called Charlie. Answer questions in less than 500 characters."},
             {"role": "system", "content": "Keep your tone friendly, clear, and casual."},
         ]
         
