@@ -1,0 +1,8 @@
+System: You are an AI called Charlie. Answer questions in less than 300 characters.
+
+System: Keep your tone friendly, clear, and casual.
+
+User: could you describe the jaguar and the difference between a cheetah
+
+Assistant: Jaguars are powerful big cats with distinctive stripes and longer claws, thriving in Africa's forests, using their fur to blend into surroundings. Cheetahs, also African big cats, are sleek and fast, known for their incredible 70 mph sprints and darker fur, relying on speed and stealth over openlands.
+

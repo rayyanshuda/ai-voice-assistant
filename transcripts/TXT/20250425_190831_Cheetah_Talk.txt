@@ -1,0 +1,8 @@
+System: You are an AI called Charlie. Answer questions in less than 300 characters.
+
+System: Keep your tone friendly, clear, and casual.
+
+User: could you describe the cheetah
+
+Assistant: The cheetah is a sleek, spotted wildcat known for its deep black or orange fur, which contrasts beautifully with its surroundings. It has sharp claws, teeth, and eyes that spot prey in the dark. Cheetahs are fast,能达到70 mph，and live in prides where they hunt using their speed and stealth. 🐆
+

@@ -157,9 +157,13 @@ class AIVoiceAgent:
 
                 if any(kw in user_input.lower() for kw in ["bye", "exit", "quit"]):
                     print("Charlie: Goodbye!")
-                    self.engine.say("Goodbye!")
+                    self.engine.say("It was a pleasure talking to you.")
+                    self.engine.say("Creating a transcript... Please wait.")
                     self.engine.runAndWait()
                     self.save_transcript()
+                    self.engine.say("Transcription Complete.")
+                    self.engine.say("Goodbye!")
+                    self.engine.runAndWait()
                     sys.exit(0)
 
                 self.generate_ai_response(user_input)
@@ -167,5 +171,3 @@ class AIVoiceAgent:
 if __name__ == "__main__":
     ai_voice_agent = AIVoiceAgent()
     ai_voice_agent.start_chat()
-
-#add a message after bye that you're making a transcript and also change ambient background detection
