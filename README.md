@@ -87,7 +87,7 @@ Modify `pyttsx3` properties (rate, volume, voice) in `__init__()`.
 Replace `deepseek-r1:7b` with any other model supported by Ollama.
 
 * **Implement a GUI for the program:**:
-Use a web framework like `Flask ` or GUI libraries like `Pygame` or `Tkinter` for an interface to interact with.
+Use a web framework like `Flask` or GUI libraries like `Pygame` or `Tkinter` for an interface to interact with.
 
 ## **Notes**
 * No API keys are required — works fully offline for transcription and TTS.
