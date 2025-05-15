@@ -109,7 +109,7 @@ class AIVoiceAgent:
             )
             ai_text = response["message"]["content"].strip()
 
-            # Remove any <think> blocks from the title generation response
+            # Remove any <think> blocks from the title generation response, to reduce time before AI speaks
             ai_text = re.sub(r'<think>.*?</think>', '', ai_text, flags=re.DOTALL).strip()
 
             # Extract title in double quotes if present
